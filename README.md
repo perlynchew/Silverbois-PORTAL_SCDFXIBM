@@ -4,7 +4,6 @@
 
 A basic GitHub repository example for Call for Code submissions and those projects that join the Code and Response initiative. Not all sections or files are required. You can make this as simple or as in-depth as you need.
 
-*Read this in other languages: [English](README.md), [한국어](README.ko.md), [português](README.pt_br.md).*
 
 ## Contents
 
