@@ -66,7 +66,7 @@ def accept():
         result = request.get_json(force=True)
     except Exception as err:
         return 'invalid data', 404
-    session.query(Scdf).filter(Scdf.event_id==result.get("event_id")).update({"CFR": "accepted"})
+    session.query(Scdf).filter(Scdf.event_id==result.get("event_id")).update({"cfr": "accepted"})
     session.commit()
     return 'Updated'
 

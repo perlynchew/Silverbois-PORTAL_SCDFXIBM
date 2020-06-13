@@ -62,7 +62,7 @@ services:
   myresponder:
     build: ./src/myResponder
     ports:
-        - "6000:5000"
+        - "8082:5000"
     depends_on:
         - postgres
     volumes:
