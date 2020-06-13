@@ -1,0 +1,84 @@
+{
+    "users":[{
+            "name":"guest",
+            "password_hash":"lcTt8mhAVj0iC26MRerxrkFSJRcE0suff1j7nJk23eguP5k5",
+            "hashing_algorithm":"rabbit_password_hashing_sha256",
+            "tags":"administrator"
+        }],
+    "vhosts": [{
+            "name": "/"
+        }, {
+            "name": "example-vhost"
+        }, {
+            "name": "scdf-vhost"
+        }],
+    "permissions": [{
+            "user": "guest",
+            "vhost": "/",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        }, {
+            "user": "guest",
+            "vhost": "example-vhost",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        }, {
+            "user": "guest",
+            "vhost": "scdf-vhost",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        }],
+    "parameters": [],
+    "policies": [],
+    "queues": [{
+            "name": "example-queue",
+            "vhost": "example-vhost",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-max-length": 5
+            }
+         }, {
+            "name": "scdf",
+            "vhost": "scdf-vhost",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        }],
+    "exchanges": [{
+            "name": "example-exchange",
+            "vhost": "example-vhost",
+            "type": "fanout",
+            "durable": true,
+            "auto_delete": false,
+            "internal": false,
+            "arguments": {}
+        }, {
+            "name": "scdf",
+            "vhost": "scdf-vhost",
+            "type": "direct",
+            "durable": true,
+            "auto_delete": false,
+            "internal": false,
+            "arguments": {}
+        }],
+    "bindings": [{
+            "source": "example-exchange",
+            "vhost": "example-vhost",
+            "destination": "example-queue",
+            "destination_type": "queue",
+            "routing_key": "",
+            "arguments": {}
+        }, {
+            "source": "scdf",
+            "vhost": "scdf-vhost",
+            "destination": "scdf",
+            "destination_type": "queue",
+            "routing_key": "",
+            "arguments": {}
+        }]
+}
+

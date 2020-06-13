@@ -1,0 +1,8 @@
+flask
+requests
+SQLAlchemy
+psycopg2-binary
+schema
+marshmallow
+apispec
+apispec-webframeworks

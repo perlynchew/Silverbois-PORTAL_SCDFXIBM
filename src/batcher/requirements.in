@@ -1,0 +1,5 @@
+flask
+celery
+requests
+SQLAlchemy
+psycopg2-binary
