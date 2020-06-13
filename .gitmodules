@@ -1,3 +1,0 @@
-[submodule "pgamqp"]
-	path = pgamqp
-	url = git@github.com:subzerocloud/pg-amqp-bridge.git
