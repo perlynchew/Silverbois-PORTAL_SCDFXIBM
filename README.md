@@ -1,9 +1,8 @@
-# Submission name
+# PORTAL
 
 [![License](https://img.shields.io/badge/License-Apache2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![Slack](https://img.shields.io/badge/Join-Slack-blue)](https://callforcode.org/slack) [![Website](https://img.shields.io/badge/View-Website-blue)](https://code-and-response.github.io/Project-Sample/)
 
-A basic GitHub repository example for Call for Code submissions and those projects that join the Code and Response initiative. Not all sections or files are required. You can make this as simple or as in-depth as you need.
-
+A solution for the SCDF-IBM Lifesavers' Innovation Challenge
 
 ## Contents
 
@@ -26,15 +25,19 @@ A basic GitHub repository example for Call for Code submissions and those projec
 
 ### What's the problem?
 
-Part of the World Health Organization's guidance on limiting further spread of COVID-19 is to practice social distancing. As a result, schools in most affected areas are taking precautionary measures by closing their facilities. With school-aged children at home for an indeterminate amount of time,  keeping them engaged, entertained, and on top of their education is important.
+Currently the mobilisation of CFRs allows for early intervention in cases of cardiac arrests and fires. However, the notifications on the myResponder app are only sent out after SCDF gets notified of an accident (when it is being reported by members of public). In such a case, there may be a significant lag time in the time taken for the incident to be reported and also in the time taken for a case to be accepted by CFRs. However, in such emergencies, the first few minutes are crucial, and it is of utmost importance that we detect these issues immediately, especially as the elderly population grows older — after all, such accidents happen more frequently to the elderly population, and they are less likely to survive them. In particular, elderly with no next of kin tend to go out alone, and if there are no passersby, they may not be detected for prolonged periods of time. This presents a potential gap in the immediate aid they should be able to receive. As such, we believe that this is an area that technology can be used to mitigate such a gap, to effectively leverage on the strengths of the CFRs to provide early intervention to such accidents. 
+
+Whilst we understand that a proportion of incidents with elderly with no next of kin may happen in homes, we believe that the mobilisation of CFRs are less feasible in such cases, and hence focused on the situations where CFRs can be effectively mobilised to provide early intervention.
 
 ### How can technology help?
 
-Schools and teachers can continue to engage with their students through virtual classrooms, and even create interactive spaces for classes. As parents face a new situation where they may need to homeschool their children, finding appropriate online resources is important as well.
+By leveraging on the capabilities of AI to automatically detect incidents through visual recognition, we hope to be able to tap on the vast network of CCTVs in Singapore to almost immediately be alerted at the onset of incidents which require emergency response. This minimises the lag time needed for a passerby to notice the incident and subsequently notify SCDF, allowing for assistance to be rendered more quickly.
 
 ### The idea
 
-It's imperative that learning and creating can continue when educational institutions have to shift the way they teach in times of crises, such as the COVID-19 pandemic. Providing a set of open source tools, backed by IBM Cloud and Watson Services, will enable educators to more easily make content available for their students.
+Our solution PORTAL, is a flask micro-service backed by IBM Visual Recognition, PostgreSQL, RabbitMQ and Celery. When an incident is detected by the AI, it will either be automatically sent to PORTAL (in the case of a fire), or alerted to a human operator for triage, and will thereafter be sent to PORTAL. PORTAL will then add the details of the event to PostgreSQL, which will call a celery task through rabbitMQ to alert myResponder app of the incident. When a community first responder (CFR) accepts the case, it will then be communicated back to PORTAL, which will update the postgreSQL database. Operators can then check PORTAL for a table of events, location, details and whether any CFRs are currently attending to the incident.
+
+The whole solution will be implemented via Docker, coupled with Kubernates, to allow for ease of scaling up, especially as there may be huge amounts of data that the AI has to handle. Besides, there will be times (e.g. in the day), where there are more alerts and hence more instances of a micro-service may be needed at that time. 
 
 ## Demo video
 
