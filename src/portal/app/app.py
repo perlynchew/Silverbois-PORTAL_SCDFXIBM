@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, render_template_string
 from models import *
 from pprint import pprint
 import uuid
@@ -57,8 +57,8 @@ def view_status():
                 else:
                     dictret['result'] = ''.join(map(str, decoded[1:]))
         current_tasks.append(dictret)
-    return (json.dumps(current_tasks, sort_keys=True, indent=4))
-
+    colnames = ["event", "location", "description", "date_done", "cfr", "event_id", "result", "status"]
+    return render_template('data.html', rows=current_tasks, Columns=colnames)
 
 @app.route("/accept", methods=['POST'])
 def accept():
