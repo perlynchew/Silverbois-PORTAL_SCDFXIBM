@@ -91,13 +91,15 @@ To start, run in the main directory,
 sudo docker-compose up
 ```
 
+## Running the tests
+
 ### Automated tests
 
 Once the containers are up, the system can take in pictures. To test the system, copy a photo from [/Incidents](Incidents) and paste it in /src/identify/model/images
 
 Should the image be identified as a fire/EMS, a POST request will be made to portal. 
 
-![Post request](sample.jpg)
+![Post request](sample.png)
 
 To exemplify the acceptance of an incidnt request on myResponder, run GET http://localhost:8082/<event_id>/accept
 
@@ -105,7 +107,7 @@ Event_id can be retrieved from http://localhost:5000/status
 
 Status of acceptance can also be viewd from http://localhost:5000/status
 
-![Status](status.jpg)
+![Status](Status.png)
 
 
 ### Break down into end to end tests
@@ -125,7 +127,8 @@ To view the status, use GET http://localhost:5000/status
 
 ## Live demo
 
-You can find a running system to test at [callforcode.mybluemix.net](http://callforcode.mybluemix.net/)
+See live demo 
+![Demo](Trial.mov)
 
 ## Built with
 
