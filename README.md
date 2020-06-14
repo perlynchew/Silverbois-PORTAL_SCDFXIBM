@@ -71,60 +71,57 @@ These instructions will get you a copy of the project up and running on your loc
 
 What things you need to install the software and how to install them
 
-Docker Desktop is required to run the software
-
-```bash
-dnf install wget
-wget http://www.example.com/install.sh
-bash install.sh
-```
+![Docker Desktop](https://docs.docker.com/docker-for-mac/install/) is required to run the software
 
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running
 
-Say what the step will be, for example
+To run, go into the directories of the micro-services (/src) and ensure that the modules are installed (see README.md in each directory)
+
+In each subdirectory, run
 
 ```bash
-export TOKEN="fffd0923aa667c617a62f5A_fake_token754a2ad06cc9903543f1e85"
-export EMAIL="jane@example.com"
-dnf install npm
-node samplefile.js
-Server running at http://127.0.0.1:3000/
+pip install -r requirement.txt
 ```
 
-And repeat
+To start, run in the main directory,
 
 ```bash
-curl localhost:3000
-Thanks for looking at Code-and-Response!
+sudo docker-compose up
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+### Automated tests
 
-## Running the tests
+Once the containers are up, the system can take in pictures. To test the system, copy a photo from [/Incidents](Incidents) and paste it in /src/identify/model/images
 
-Explain how to run the automated tests for this system
+Should the image be identified as a fire/EMS, a POST request will be made to portal. 
+
+![Post request](sample.jpg)
+
+To exemplify the acceptance of an incidnt request on myResponder, run GET http://localhost:8082/<event_id>/accept
+
+Event_id can be retrieved from http://localhost:5000/status
+
+Status of acceptance can also be viewd from http://localhost:5000/status
+
+![Status](status.jpg)
+
 
 ### Break down into end to end tests
 
-Explain what these tests test and why, if you were using something like `mocha` for instnance
 
+To test portal, simply send a POST request to http://localhost:5000/request in the format
 ```bash
-npm install mocha --save-dev
-vi test/test.js
-./node_modules/mocha/bin/mocha
+{
+"event": "fire",
+"location": "jurong",
+"description": "rubbish chute"
+}
 ```
 
-### And coding style tests
+To view the status, use GET http://localhost:5000/status
 
-Explain what these tests test and why, if you chose `eslint` for example
-
-```bash
-npm install eslint --save-dev
-npx eslint --init
-npx eslint sample-file.js
-```
 
 ## Live demo
 
