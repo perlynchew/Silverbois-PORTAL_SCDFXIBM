@@ -4,26 +4,17 @@ Our rationale - we want to leverage on the capabilities of CFRs to provide timel
 
 As such, we evaluated the next best situation where we can maximise the potential of CFRs in providing early intervention. Understanding that many elderly with next of kin may go out alone, we felt that there was a shortfall in the detection of such cases. In particular, the current framework still completely relies on the calls by citizens to SCDF, which may not be fast enough in the event that no one notices the casualty. In such cases, the golden period for treatment may be missed. To overcome this shortfall, we felt that the best possible solution would be to leverage on Singapore's wide network of CCTVs, and through making use of AI, sense-make these seemingly random images in order to detect incidents. 
 
-## Section 1
+## Machine Learning
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia nisi ut fringilla sodales. Etiam elementum a arcu vel fringilla. Nulla ac efficitur felis. In a nisi bibendum, efficitur felis vel, consectetur quam. Aenean ornare justo velit, sed malesuada massa efficitur ut. Sed non augue vel risus tempus lacinia ac nec est. Nunc vel finibus felis. Vivamus felis diam, porta sed rhoncus eu, luctus eget justo. 
+We use IBM Watsons Machine Learning to train our A.I to be able to identify incidents. This is done using past data from incidents in Singapore to increase the accuracy in order to prevent false alarms. Our A.I will then be able to distinguish between fires and other EMS and send these information to nearby CFRs so they are able to assist. This allows for detection of such incidents even whey are not seen by any passersby, mobilising the CFRs more efficiently.
 
-### Subsection 1.1
 
-Mauris odio ante, rhoncus et varius vel, vulputate et enim. Aliquam erat volutpat. Proin lacinia libero velit, a dictum sapien ultricies quis. Vivamus dolor nibh, efficitur in ipsum vitae, faucibus eleifend felis.
+## Reinforcement Learning
 
-### Subsection 1.2
+As PORTAL is rolled out nationwide, we can gather more data and use these to further train our A.I for higher accuracy in detecting such incidents, reducing the number of false alarms.
 
-Nullam nec lectus massa. Proin feugiat placerat nisi lacinia lobortis. Duis efficitur ac orci ac lobortis.
 
 ## Conclusion
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc lacinia nisi ut fringilla sodales. Etiam elementum a arcu vel fringilla. Nulla ac efficitur felis. In a nisi bibendum, efficitur felis vel, consectetur quam. Aenean ornare justo velit, sed malesuada massa efficitur ut. Sed non augue vel risus tempus lacinia ac nec est. Nunc vel finibus felis. Vivamus felis diam, porta sed rhoncus eu, luctus eget justo. 
+Using Machine Learning to auto detect incidents from CCTV images, coupled with the PORTAL (Flask API), we believe that incidents can be detected more quickly without the need for a passerby to notice the casualty. Through the integration of different technologies, the notification will then be immediately sent out to the myResponders app, promoting even earlier intervention by CFRs, which could save many lives. The acceptance of a request by CFRs is also reflected by PORTAL, thus allowing operators to keep track of the presence of people responding to the incident.
 
-### Results
-
-Nullam nec lectus massa. Proin feugiat placerat nisi lacinia lobortis. Duis efficitur ac orci ac lobortis.
-
-## Acknowledgments
-
-Nullam nec lectus massa. Proin feugiat placerat nisi lacinia lobortis. Duis efficitur ac orci ac lobortis.

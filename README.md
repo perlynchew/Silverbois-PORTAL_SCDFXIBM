@@ -41,7 +41,7 @@ The whole solution will be implemented via Docker, coupled with Kubernetes, to a
 
 ## Demo video
 
-[![Watch the video](https://github.com/Code-and-Response/Liquid-Prep/blob/master/images/IBM-interview-video-image.png)](https://youtu.be/vOgCOoy_Bx0)
+[Video](https://youtu.be/nMm1lViM8Xk)
 
 ## The architecture
 
@@ -71,7 +71,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 What things you need to install the software and how to install them
 
-![Docker Desktop](https://docs.docker.com/docker-for-mac/install/) is required to run the software
+[Docker Desktop](https://docs.docker.com/docker-for-mac/install/) is required to run the software
 
 ### Installing
 
@@ -90,6 +90,14 @@ To start, run in the main directory,
 ```bash
 sudo docker-compose up
 ```
+
+To deploy on kubernetes, run
+
+```bash
+docker stack deploy --orchestrator=kubernetes -c docker-compose.yml words
+```
+
+If kubernetes is unable to be deployed, just run on docker using sudo docker-compose up
 
 ## Running the tests
 
