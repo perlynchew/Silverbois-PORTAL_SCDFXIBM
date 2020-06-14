@@ -1,4 +1,4 @@
-# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#Copyright 2017 The TensorFlow Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -6,8 +6,7 @@
 #
 #     http://www.apache.org/licenses/LICENSE-2.0
 #
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
+# Unless required by applicable law or agreed to in writing, software # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
@@ -33,7 +32,10 @@ import PIL.ImageDraw as ImageDraw
 import PIL.ImageFont as ImageFont
 import six
 import tensorflow as tf
+import requests
+import time
 
+url = "http://192.168.1.6:5000/request"
 
 _TITLE_LEFT_MARGIN = 10
 _TITLE_TOP_MARGIN = 10
@@ -63,95 +65,95 @@ STANDARD_COLORS = [
     'WhiteSmoke', 'Yellow', 'YellowGreen'
 ]
 
-def draw_bounding_box_on_image_array(image,
-                                     ymin,
-                                     xmin,
-                                     ymax,
-                                     xmax,
-                                     color='red',
-                                     thickness=4,
-                                     display_str_list=(),
-                                     use_normalized_coordinates=True):
-  """Adds a bounding box to an image (numpy array).
-
-  Args:
-    image: a numpy array with shape [height, width, 3].
-    ymin: ymin of bounding box in normalized coordinates (same below).
-    xmin: xmin of bounding box.
-    ymax: ymax of bounding box.
-    xmax: xmax of bounding box.
-    color: color to draw bounding box. Default is red.
-    thickness: line thickness. Default value is 4.
-    display_str_list: list of strings to display in box
-                      (each to be shown on its own line).
-    use_normalized_coordinates: If True (default), treat coordinates
-      ymin, xmin, ymax, xmax as relative to the image.  Otherwise treat
-      coordinates as absolute.
-  """
-  image_pil = Image.fromarray(np.uint8(image)).convert('RGB')
-  draw_bounding_box_on_image(image_pil, ymin, xmin, ymax, xmax, color,
-                             thickness, display_str_list,
-                             use_normalized_coordinates)
-  np.copyto(image, np.array(image_pil))
-
-
-def draw_bounding_box_on_image(image,
-                               ymin,
-                               xmin,
-                               ymax,
-                               xmax,
-                               color='red',
-                               thickness=4,
-                               display_str_list=(),
-                               use_normalized_coordinates=True):
-  """Adds a bounding box to an image.
-
-  Each string in display_str_list is displayed on a separate line above the
-  bounding box in black text on a rectangle filled with the input 'color'.
-
-  Args:
-    image: a PIL.Image object.
-    ymin: ymin of bounding box.
-    xmin: xmin of bounding box.
-    ymax: ymax of bounding box.
-    xmax: xmax of bounding box.
-    color: color to draw bounding box. Default is red.
-    thickness: line thickness. Default value is 4.
-    display_str_list: list of strings to display in box
-                      (each to be shown on its own line).
-    use_normalized_coordinates: If True (default), treat coordinates
-      ymin, xmin, ymax, xmax as relative to the image.  Otherwise treat
-      coordinates as absolute.
-  """
-  draw = ImageDraw.Draw(image)
-  im_width, im_height = image.size
-  if use_normalized_coordinates:
-    (left, right, top, bottom) = (xmin * im_width, xmax * im_width,
-                                  ymin * im_height, ymax * im_height)
-  else:
-    (left, right, top, bottom) = (xmin, xmax, ymin, ymax)
-  draw.line([(left, top), (left, bottom), (right, bottom),
-             (right, top), (left, top)], width=thickness, fill=color)
-  try:
-    font = ImageFont.truetype('arial.ttf', 24)
-  except IOError:
-    font = ImageFont.load_default()
-
-  text_bottom = top
-  # Reverse list and print from bottom to top.
-  for display_str in display_str_list[::-1]:
-    text_width, text_height = font.getsize(display_str)
-    margin = np.ceil(0.05 * text_height)
-    draw.rectangle(
-        [(left, text_bottom - text_height - 2 * margin), (left + text_width,
-                                                          text_bottom)],
-        fill=color)
-    draw.text(
-        (left + margin, text_bottom - text_height - margin),
-        display_str,
-        fill='black',
-        font=font)
-    text_bottom -= text_height - 2 * margin
+#def draw_bounding_box_on_image_array(image,
+#                                     ymin,
+#                                     xmin,
+#                                     ymax,
+#                                     xmax,
+#                                     color='red',
+#                                     thickness=4,
+#                                     display_str_list=(),
+#                                     use_normalized_coordinates=True):
+#  """Adds a bounding box to an image (numpy array).
+#
+#  Args:
+#    image: a numpy array with shape [height, width, 3].
+#    ymin: ymin of bounding box in normalized coordinates (same below).
+#    xmin: xmin of bounding box.
+#    ymax: ymax of bounding box.
+#    xmax: xmax of bounding box.
+#    color: color to draw bounding box. Default is red.
+#    thickness: line thickness. Default value is 4.
+#    display_str_list: list of strings to display in box
+#                      (each to be shown on its own line).
+#    use_normalized_coordinates: If True (default), treat coordinates
+#      ymin, xmin, ymax, xmax as relative to the image.  Otherwise treat
+#      coordinates as absolute.
+#  """
+#  image_pil = Image.fromarray(np.uint8(image)).convert('RGB')
+#  draw_bounding_box_on_image(image_pil, ymin, xmin, ymax, xmax, color,
+#                             thickness, display_str_list,
+#                             use_normalized_coordinates)
+#  np.copyto(image, np.array(image_pil))
+#
+#
+#def draw_bounding_box_on_image(image,
+#                               ymin,
+#                               xmin,
+#                               ymax,
+#                               xmax,
+#                               color='red',
+#                               thickness=4,
+#                               display_str_list=(),
+#                               use_normalized_coordinates=True):
+#  """Adds a bounding box to an image.
+#
+#  Each string in display_str_list is displayed on a separate line above the
+#  bounding box in black text on a rectangle filled with the input 'color'.
+#
+#  Args:
+#    image: a PIL.Image object.
+#    ymin: ymin of bounding box.
+#    xmin: xmin of bounding box.
+#    ymax: ymax of bounding box.
+#    xmax: xmax of bounding box.
+#    color: color to draw bounding box. Default is red.
+#    thickness: line thickness. Default value is 4.
+#    display_str_list: list of strings to display in box
+#                      (each to be shown on its own line).
+#    use_normalized_coordinates: If True (default), treat coordinates
+#      ymin, xmin, ymax, xmax as relative to the image.  Otherwise treat
+#      coordinates as absolute.
+#  """
+#  draw = ImageDraw.Draw(image)
+#  im_width, im_height = image.size
+#  if use_normalized_coordinates:
+#    (left, right, top, bottom) = (xmin * im_width, xmax * im_width,
+#                                  ymin * im_height, ymax * im_height)
+#  else:
+#    (left, right, top, bottom) = (xmin, xmax, ymin, ymax)
+#  draw.line([(left, top), (left, bottom), (right, bottom),
+#             (right, top), (left, top)], width=thickness, fill=color)
+#  try:
+#    font = ImageFont.truetype('arial.ttf', 24)
+#  except IOError:
+#    font = ImageFont.load_default()
+#
+#  text_bottom = top
+#  # Reverse list and print from bottom to top.
+#  for display_str in display_str_list[::-1]:
+#    text_width, text_height = font.getsize(display_str)
+#    margin = np.ceil(0.05 * text_height)
+#    draw.rectangle(
+#        [(left, text_bottom - text_height - 2 * margin), (left + text_width,
+#                                                          text_bottom)],
+#        fill=color)
+#    draw.text(
+#        (left + margin, text_bottom - text_height - margin),
+#        display_str,
+#        fill='black',
+#        font=font)
+#    text_bottom -= text_height - 2 * margin
 
 
 def visualize_boxes_and_labels_on_image_array(image,
@@ -164,7 +166,7 @@ def visualize_boxes_and_labels_on_image_array(image,
                                               min_score_thresh=.5,
                                               agnostic_mode=False,
                                               line_thickness=4,
-                                              ret = False):
+                                              ret = False, image_path=""):
   """Overlay labeled boxes on an image with formatted scores and label names.
 
   This function groups boxes that correspond to the same location
@@ -193,7 +195,9 @@ def visualize_boxes_and_labels_on_image_array(image,
   box_to_display_str_map = collections.defaultdict(list)
   box_to_color_map = collections.defaultdict(str)
   box_to_instance_masks_map = {}
-  box_to_keypoints_map = collections.defaultdict(list)
+  box_to_keypoints_map = collections.defaultdict(list) 
+  fire = False
+  fall = False
   if not max_boxes_to_draw:
     max_boxes_to_draw = boxes.shape[0]
   for i in range(min(max_boxes_to_draw, boxes.shape[0])):
@@ -207,14 +211,14 @@ def visualize_boxes_and_labels_on_image_array(image,
             class_name = category_index[classes[i]]['name']
           else:
             class_name = 'N/A'
-          display_str = '{}1: {}%'.format(
+          display_str = '{}: {}%'.format(
               class_name,
               int(100*scores[i]))
-          print("test", 100 * scores[i])
           if (class_name == 'fire'):
-              print("OH NO")
-          print("Sending POST Request")
-          
+              fire = True
+          if (class_name == 'fall'):
+              fall = True
+        
         else:
           display_str = 'score: {}%'.format(int(100 * scores[i]))
         box_to_display_str_map[box].append(display_str)
@@ -223,6 +227,13 @@ def visualize_boxes_and_labels_on_image_array(image,
         else:
           box_to_color_map[box] = STANDARD_COLORS[
               classes[i] % len(STANDARD_COLORS)]
+  if fire:
+    print("ok")
+    requests.post(url,json={"event":"fire","location":"Jurong","description":"","image":image_path})
+  if fall:
+    print("Alerting Operator...")
+    time.sleep(0.01)
+    requests.post(url,json={"event":"fall","location":"Jurong","description":"","image":image_path})
   if ret:
     # test function to return PIL image once has been modified
     return image

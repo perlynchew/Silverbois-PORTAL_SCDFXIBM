@@ -21,7 +21,7 @@ from PIL import Image
 from errno import EEXIST
 from pathlib import Path
 
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 import glob
 
@@ -108,7 +108,7 @@ def call_tflite_model(interpreter, input_img):
 
 
 
-def detect_objects(model, IMAGE_PATH, CATEGORY_INDEX, ANCHOR_POINTS, MINIMUM_CONFIDENCE, SAVE_DIR = None):
+def detect_objects(model, IMAGE_PATH, CATEGORY_INDEX, ANCHOR_POINTS, MINIMUM_CONFIDENCE):
     '''
     Adapted from tensorflow slim.
     Performs object detection inference on given image (.jpg in IMAGE_PATH)
@@ -139,7 +139,7 @@ def detect_objects(model, IMAGE_PATH, CATEGORY_INDEX, ANCHOR_POINTS, MINIMUM_CON
     image = Image.open(IMAGE_PATH)
     start = t.time()
     classes, boxes, scores = call_tflite_model(model, image)
-    print("Inference time: {}".format(t.time()-start))
+#    print("Inference time: {}".format(t.time()-start))
     image_np = load_image_into_numpy_array(image)
     image_np_reg = load_image_into_numpy_array(image, reg=True)
     image_np_expanded = np.expand_dims(image_np, axis=0)
@@ -168,14 +168,14 @@ def detect_objects(model, IMAGE_PATH, CATEGORY_INDEX, ANCHOR_POINTS, MINIMUM_CON
     
     boxes_normalised = [yMin, xMin, yMax, xMax]
     print("-"*10)
-    print("Inference Summary:")
-    print("Highest Score: {}".format(np.max(scores) ) )
-    print("Highest Scoring Box: {}".format(np.transpose(np.squeeze(boxes_normalised))[np.argmax(scores)]) )
-    print("-"*10)
-    print("Image shape: {}".format(np.squeeze(image_np).shape))
-    print("Boxes shape: {}".format(np.transpose(np.squeeze(boxes_normalised)).shape))
-    print("Classes shape: {}".format(np.round(np.squeeze(classes)).astype(np.int32).shape ))
-    print("Scores shape: {}".format(np.squeeze(scores).shape))
+#    print("Inference Summary:")
+#    print("Highest Score: {}".format(np.max(scores) ) )
+#    print("Highest Scoring Box: {}".format(np.transpose(np.squeeze(boxes_normalised))[np.argmax(scores)]) )
+#    print("-"*10)
+#    print("Image shape: {}".format(np.squeeze(image_np).shape))
+#    print("Boxes shape: {}".format(np.transpose(np.squeeze(boxes_normalised)).shape))
+#    print("Classes shape: {}".format(np.round(np.squeeze(classes)).astype(np.int32).shape ))
+#    print("Scores shape: {}".format(np.squeeze(scores).shape))
 #    fig = plt.figure()
     out_image = vis_util.visualize_boxes_and_labels_on_image_array(
         np.squeeze(image_np),
@@ -186,7 +186,7 @@ def detect_objects(model, IMAGE_PATH, CATEGORY_INDEX, ANCHOR_POINTS, MINIMUM_CON
         min_score_thresh=MINIMUM_CONFIDENCE,
         use_normalized_coordinates=True,
         line_thickness=8,
-        ret = True)
+        ret = True, image_path = IMAGE_PATH)
     
 #    fig.set_size_inches(16, 9)
 #    ax = plt.Axes(fig, [0., 0., 1., 1.])
@@ -203,14 +203,12 @@ def detect_objects(model, IMAGE_PATH, CATEGORY_INDEX, ANCHOR_POINTS, MINIMUM_CON
 #      print("Image Saved")
 #      print("="*10)
 
-def mkdir_p(mypath):
-  '''Creates a directory. equivalent to using mkdir -p on the command line'''
-  try:
-      os.makedirs(mypath)
-  except OSError as exc: # Python >2.5
-      if exc.errno == EEXIST and os.path.isdir(mypath):
-          pass
-      else: raise
-
-print("Util imports Successful")
+#def mkdir_p(mypath):
+#  '''Creates a directory. equivalent to using mkdir -p on the command line'''
+#  try:
+#      os.makedirs(mypath)
+#  except OSError as exc: # Python >2.5
+#      if exc.errno == EEXIST and os.path.isdir(mypath):
+#          pass
+#      else: raise
 
