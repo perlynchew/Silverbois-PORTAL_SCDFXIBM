@@ -26,5 +26,5 @@ while True:
     todelete = glob.glob(os.path.join(working_dir + "/model/images","*.jpg"))
     for item in todelete:
         os.remove(item)
-    print("success") 
+#    print("success") 
     time.sleep(15) 
