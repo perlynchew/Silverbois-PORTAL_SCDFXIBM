@@ -35,7 +35,7 @@ import tensorflow as tf
 import requests
 import time
 
-url = "http://192.168.1.6:5000/request"
+url = "http://localhost:5000/request"
 
 _TITLE_LEFT_MARGIN = 10
 _TITLE_TOP_MARGIN = 10
@@ -228,7 +228,7 @@ def visualize_boxes_and_labels_on_image_array(image,
           box_to_color_map[box] = STANDARD_COLORS[
               classes[i] % len(STANDARD_COLORS)]
   if fire:
-    print("ok")
+    print("Sending POST Request")
     requests.post(url,json={"event":"fire","location":"Jurong","description":"","image":image_path})
   if fall:
     print("Alerting Operator...")

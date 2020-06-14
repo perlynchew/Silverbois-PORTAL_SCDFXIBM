@@ -1,0 +1,69 @@
+version: '3'
+services:
+  batcher:
+    build: ./src/batcher
+    links:
+        - postgres
+        - rabbitmq
+        - pgamqp
+    depends_on:
+        - postgres
+        - rabbitmq
+        - pgamqp
+    volumes:
+        - ./src/batcher/app:/app
+    restart: always
+
+  postgres:
+    image: postgres
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=password
+        - DATABASE_URL=postgres://postgres:password@postgres
+    volumes:
+        - ./data/pgdata:/var/lib/postgresql/data
+        - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+        - "8081:15672"
+        - "5672:5672"
+    volumes:
+        - ./config/rabbitmq.definitions.json:/etc/rabbitmq/definitions.json:ro
+        - ./config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+
+  pgamqp:
+    build: ./pgamqp
+    environment:
+        - POSTGRESQL_URI=postgres://postgres:password@postgres
+        - AMQP_URI=amqp://guest:guest@rabbitmq:5672/scdf-vhost
+        - BRIDGE_CHANNELS=pgchannel2:scdf
+        - RUST_BACKTRACE=1
+    restart: always
+    depends_on:
+        - rabbitmq
+        - postgres
+
+
+  portal:
+    build: ./src/portal
+    ports:
+        - "5000:5000"
+    depends_on:
+        - postgres
+    links:
+       - postgres
+    volumes:
+        - ./src/portal/app:/app
+    restart: always
+
+
+  myresponder:
+    build: ./src/myResponder
+    ports:
+        - "8082:5000"
+    depends_on:
+        - postgres
+    volumes:
+        - ./src/myResponder/app:/app
