@@ -27,4 +27,4 @@ while True:
     for item in todelete:
         os.remove(item)
 #    print("success") 
-    time.sleep(15) 
+    time.sleep(10) 
