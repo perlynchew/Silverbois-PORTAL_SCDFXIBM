@@ -42,12 +42,15 @@ It's imperative that learning and creating can continue when educational institu
 
 ## The architecture
 
-![Video transcription/translation app](https://developer.ibm.com/developer/tutorials/cfc-starter-kit-speech-to-text-app-example/images/cfc-covid19-remote-education-diagram-2.png)
+![Architecture Diagram](architecture.jpg)
 
-1. The user navigates to the site and uploads a video file.
-2. Watson Speech to Text processes the audio and extracts the text.
-3. Watson Translation (optionally) can translate the text to the desired language.
-4. The app stores the translated text as a document within Object Storage.
+1. CCTV data is processed using AI visual recognition to detect for fire or EMS (in the event of EMS, images will be sent to human operator for triage)
+2. Upon being alerted, visual recognition software will send a POST request to PORTAL API with details of event, location and details
+3. PORTAL API will insert the data into postgreSQL, which will trigger a message to be sent out on rabbitMQ, which will be consumed by celery
+4. Celery will send out the alerts on the myResponder app 
+5. If a CFR accepts the case, myResponder app will notify PORTAL, which will update the postgreSQL
+6. To keep track of the events detected and sent out from API, operators can check PORTAL, which will display the event, location, details and whether any CFR has accepted the case
+7. To be able to easily scale up the services during periods where alert frequency may be higher, docker containers, coupled with kubernates are used 
 
 ## Long description
 
