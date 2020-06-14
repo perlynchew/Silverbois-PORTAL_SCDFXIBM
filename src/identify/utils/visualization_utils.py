@@ -35,7 +35,7 @@ import tensorflow as tf
 import requests
 import time
 
-url = "http://localhost:5000/request"
+url = "http://portal:5000/request"
 
 _TITLE_LEFT_MARGIN = 10
 _TITLE_TOP_MARGIN = 10
