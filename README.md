@@ -61,7 +61,8 @@ The whole solution will be implemented via Docker, coupled with Kubernetes, to a
 
 ## Project roadmap
 
-
+![Roadmap1](roadmap1.jpg)
+![Roadmap2](roadmap2.jpg)
 
 ## Getting started
 
