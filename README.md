@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![Slack](https://img.shields.io/badge/Join-Slack-blue)](https://callforcode.org/slack) [![Website](https://img.shields.io/badge/View-Website-blue)](https://code-and-response.github.io/Project-Sample/)
 
-A solution for the SCDF-IBM Lifesavers' Innovation Challenge
+A solution for the SCDF-IBM Lifesavers' Innovation Challenge by team silverbois
 
 ## Contents
 
@@ -31,13 +31,13 @@ Whilst we understand that a proportion of incidents with elderly with no next of
 
 ### How can technology help?
 
-By leveraging on the capabilities of AI to automatically detect incidents through visual recognition, we hope to be able to tap on the vast network of CCTVs in Singapore to almost immediately be alerted at the onset of incidents which require emergency response. This minimises the lag time needed for a passerby to notice the incident and subsequently notify SCDF, allowing for assistance to be rendered more quickly.
+By leveraging on the capabilities of AI to automatically detect incidents through visual recognition, we hope to be able to tap on the vast network of CCTVs in Singapore to be alerted almost immediately at the onset of incidents which require emergency response. This minimises the lag time needed for a passerby to notice the incident and subsequently notify SCDF, allowing for assistance to be rendered more quickly.
 
 ### The idea
 
-Our solution PORTAL, is a flask micro-service backed by IBM Visual Recognition, PostgreSQL, RabbitMQ and Celery. When an incident is detected by the AI, it will either be automatically sent to PORTAL (in the case of a fire), or alerted to a human operator for triage, and will thereafter be sent to PORTAL. PORTAL will then add the details of the event to PostgreSQL, which will call a celery task through rabbitMQ to alert myResponder app of the incident. When a community first responder (CFR) accepts the case, it will then be communicated back to PORTAL, which will update the postgreSQL database. Operators can then check PORTAL for a table of events, location, details and whether any CFRs are currently attending to the incident.
+Our solution PORTAL, is a flask micro-service backed by IBM Watson Machine Learning, PostgreSQL, RabbitMQ and Celery. When an incident is detected by the AI, it will either be automatically sent to PORTAL (in the case of a fire), or alerted to a human operator for triage, and will thereafter be sent to PORTAL. PORTAL will then add the details of the event to PostgreSQL, which will call a celery task through rabbitMQ to alert myResponder app of the incident. When a community first responder (CFR) accepts the case, it will then be communicated back to PORTAL, which will update the postgreSQL database. Operators can then check PORTAL for a table of events, location, details and whether any CFRs are currently attending to the incident.
 
-The whole solution will be implemented via Docker, coupled with Kubernates, to allow for ease of scaling up, especially as there may be huge amounts of data that the AI has to handle. Besides, there will be times (e.g. in the day), where there are more alerts and hence more instances of a micro-service may be needed at that time. 
+The whole solution will be implemented via Docker, coupled with Kubernetes, to allow for ease of scaling up, especially as there may be huge amounts of data that the AI has to handle. Besides, there will be times (e.g. in the day), where there are more alerts and hence more instances of a micro-service may be needed at that time. 
 
 ## Demo video
 
@@ -53,7 +53,7 @@ The whole solution will be implemented via Docker, coupled with Kubernates, to a
 4. Celery will send out the alerts on the myResponder app 
 5. If a CFR accepts the case, myResponder app will notify PORTAL, which will update the postgreSQL
 6. To keep track of the events detected and sent out from API, operators can check PORTAL, which will display the event, location, details and whether any CFR has accepted the case
-7. To be able to easily scale up the services during periods where alert frequency may be higher, docker containers, coupled with kubernates are used 
+7. To be able to easily scale up the services during periods where alert frequency may be higher, docker containers, coupled with kubernetes are used 
 
 ## Long description
 
@@ -70,6 +70,8 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 What things you need to install the software and how to install them
+
+Docker Desktop is required to run the software
 
 ```bash
 dnf install wget
@@ -130,9 +132,9 @@ You can find a running system to test at [callforcode.mybluemix.net](http://call
 
 ## Built with
 
-*The IBM Cloud version of PostgreSQL, rabbitMQ and Kubernates were not used when creating this solution as they were not available with our current account type.*
+*The IBM Cloud version of PostgreSQL, rabbitMQ and Kubernates were not used when creating this solution as they were not available with our current account type*
 
-* IBM Visual Recognition - To detect incidents visually
+* IBM Watson Machine Learning - To detect incidents visually
 * PostgreSQL - The object-relational database used
 * RabbitMQ - The message-broker used for celery
 * Flask - The web framework used
